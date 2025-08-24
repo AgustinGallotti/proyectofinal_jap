@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const password = document.getElementById("password").value;
 
     if (email && password) {
-      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("inicioSesion", "true");
       window.location.href = "index.html";
 
     } else {
