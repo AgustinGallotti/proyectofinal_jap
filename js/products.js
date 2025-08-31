@@ -6,7 +6,7 @@ function showCategoriesList(array){
     
     const htmlContentToAppend = array.products.map(prod => {
         return `
-            <div class="table">
+            <div class="table d-flex flex-column flex-md-row">
                 <div>
                     <img src="${prod.image}" class="tableImg" alt="aa" width="150">
                 </div>
