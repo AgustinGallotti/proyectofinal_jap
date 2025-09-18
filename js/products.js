@@ -35,9 +35,15 @@ EJECUCIÓN:
 */
 
 document.addEventListener("DOMContentLoaded", function(e){
-    getJSONData(LIST_URL).then(function(resultObj){
-        if (resultObj.status === "ok")
-        {
+    // Obtener el id de categoría desde localStorage
+    const catId = localStorage.getItem("catID");
+
+    // Construir la URL dinámica con ese id
+    const url = https://japceibal.github.io/emercado-api/cats_products/${catId}.json;
+
+    // Usar url en lugar de LIST_URL
+    getJSONData(url).then(function(resultObj){
+        if (resultObj.status === "ok") {
             categoriesArray = resultObj.data;
             showCategoriesList(categoriesArray);
         }
