@@ -243,3 +243,96 @@ a.custom-card:hover {
   justify-content: left;
   align-items: center;
 }
+
+
+.containerGrid {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.containerCarrusel {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.square {
+  margin: 10px;
+  display: block;
+  height: auto;
+  width: 240px;
+}
+
+
+.containerRelacionados {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow-x: scroll;
+  width: auto;
+  height: 220px;
+  scroll-behavior: smooth;
+  border: none;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.containerRelacionados::-webkit-scrollbar {
+  display: none;
+}
+
+.imgRelacionadosDOM {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 20px;
+  width: auto;
+  height: 180px;
+}
+
+.carrusel {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  border: none;
+  margin: 20px;
+  height: 220px;
+}
+
+.expandedView {
+  margin: 10px;
+  height: auto;
+  width: 750px;
+}
+
+.imgExpanded {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  justify-content: center;
+}
+
+.descriptionImgView {
+  color: white;
+  padding: 20px;
+}
+
+.precioImgView {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.infoImg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+  margin: 10px;
+  width: 400px;
+  height: auto;
+  background-color: aliceblue;
+}
