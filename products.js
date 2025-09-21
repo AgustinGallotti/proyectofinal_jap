@@ -5,8 +5,10 @@ let categoriesArray = [];
 function showCategoriesList(array){
     
     const htmlContentToAppend = array.products.map(prod => {
+        localStorage.setItem(`id_${prod.id}`, JSON.stringify(prod));
+
         return `
-            <div class="table d-flex flex-column flex-md-row">
+        <div class="table d-flex flex-column flex-md-row product-item" id="${prod.id}">
                 <div>
                     <img src="${prod.image}" class="tableImg" alt="aa" width="150">
                 </div>
@@ -14,14 +16,24 @@ function showCategoriesList(array){
                 <span class="item">${prod.description}</span>
                 <span class="item">${prod.currency} ${prod.cost}</span>
                 <span class="item">${prod.soldCount}</span>
-            </div>
-            `;
+                </div>
+                `;
         }).join("");
         console.log(array);
-
         
-        document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
-     
+        const container = document.getElementById("cat-list-container");
+        container.innerHTML = htmlContentToAppend;
+        
+        //delegar funciones
+        container.addEventListener("click", (e) => {
+            const item = e.target.closest(".product-item")
+            if (item) {
+                console.log("id en hover: ", item.id);
+                // guardo el seleccionado
+                localStorage.setItem("selectedProductId", item.id)
+                window.location = "product-info.html";
+            }
+        })
 }
 
 
@@ -35,15 +47,18 @@ EJECUCIÓN:
 */
 
 document.addEventListener("DOMContentLoaded", function(e){
+
+    // Usar url en lugar de LIST_URL
     getJSONData(LIST_URL).then(function(resultObj){
-        if (resultObj.status === "ok")
-        {
+        if (resultObj.status === "ok") {
             categoriesArray = resultObj.data;
             showCategoriesList(categoriesArray);
         }
+        else {
+            console.log("url no econtrada")
+        }
     });
 });
-
 
 /* Funciones para los filtros, entrega 3*/
 
@@ -106,5 +121,3 @@ document.getElementById("sort-relev").addEventListener("click", () => {
     categoriesArray.products.sort((a, b) => b.soldCount - a.soldCount);
     showCategoriesList(categoriesArray);
 });
-
-
