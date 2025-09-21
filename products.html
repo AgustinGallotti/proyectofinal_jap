@@ -37,6 +37,54 @@
       </div>
     </div>
   </nav>
+
+<!-- Filtros de busqueda, entrega 3-->
+ 
+<section class="filtro" id="filtros">
+  <div class="consulta">
+        <input type="search" id="searchInput" placeholder="Buscar producto...">
+  <div id="results"></div>
+
+
+  </div>
+
+<!-- Contenedor que une filtros y orden -->
+  <div class="filtros-contenedor">
+    
+<!-- Filtros de precio -->
+
+    <div class="busqueda">
+      <label for="precio-min">Precio Mínimo:</label>
+      <input type="number" id="precio-min" name="precio-min" min="0">
+
+      <label for="precio-max">Precio Máximo:</label>
+      <input type="number" id="precio-max" name="precio-max" min="0">
+
+
+      <button onclick="filtrarPorPrecio()">Aplicar Filtro</button>
+      <button onclick="limpiarFiltros()">Limpiar Filtros</button>
+
+
+    
+    </div>
+
+<!-- Ordenamiento -->
+
+<div class="orden">
+  <button class="mayor" id="sort-asc">↑ Precio</button>
+  <button class="menor" id="sort-desc">↓ Precio</button>
+  <button class="relevancia" id="sort-relev">Mas vendidos</button>
+</div>
+
+  </div>
+</section>
+
+
+<!-- listado -->
+
+  </div>
+
+
   <main class="pb-5 container">
     <div class="container">
       <div class="rows">
