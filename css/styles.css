@@ -430,3 +430,79 @@ section#filtros {
     width: 100%;
   }
 }
+
+
+/* Menú popup de la reseña */
+  .custom-close-btn {
+    background-color: #778da9;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 1;
+  }
+
+  .custom-close-btn::before {
+    content: "x";
+    color: white;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .modal-content {
+    border-radius: 1rem;
+    background-color: #f8f9fa;
+  }
+
+  .modal-body {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .modal-footer .btn-primary {
+    background-color: #778da9;
+    border-color: #778da9;
+  }
+
+  .modal-footer .btn-primary:hover {
+    background-color: #415a77;
+    border-color: #415a77;
+  }
+
+
+/* Las estrellitas */
+  .rating-stars {
+    unicode-bidi: bidi-override;
+    direction: rtl; /* Porque por alguna razón hace que las estrellas vayan de derecha a izquierda estilo escritura árabe */
+  }
+
+  .rating-stars > input {
+    display: none; /* No es un radio button si no lo ves */
+  }
+
+  .rating-stars > label {
+    display: inline-block;
+    padding: 0 0.1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 1.5rem; 
+    color: #e0e1dd; 
+  }
+  
+  .rating-stars > label::before {
+    content: "\2605"; /* Son estrellas en unicode, se me hacía más fácil de modificar */
+  }
+
+  .rating-stars > input:checked ~ label {
+    color: #778da9; /* Y esto junto con lo de abajo para que sea acumulativo lo de marcar estrellas */
+  }
+
+  .rating-stars > label:hover, .rating-stars > label:hover ~ label {
+    color: #415a77;
+  }
