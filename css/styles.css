@@ -271,7 +271,6 @@ a.custom-card:hover {
   justify-content: space-between;
   overflow-x: scroll;
   width: auto;
-  height: 220px;
   scroll-behavior: smooth;
   border: none;
   text-decoration: none;
