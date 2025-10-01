@@ -44,85 +44,73 @@
   <main>
     <div id="product-info">C</div>
 
-    <script>
-      
-      document.addEventListener("DOMContentLoaded", () => {
-        
-        const productID = localStorage.getItem("selectedProductId")
-        
-        if (productID) {
-          getJSONData(PRODUCT_INFO_URL + productID + ".json").then(function(response) {
-            if (response.status === "ok") {
-              const productData = response.data;
-              
-              if (productData) {
-                const container = document.getElementById("product-info");
-                container.innerHTML = `
-                <div class="col containerGrid">
-                <div class="row-sm-2">
-                  <div class="square row-sm-3">
-                    <img class="imgExpanded" src="${productData.images[0]}" alt="${productData.name}">
-                    </div>
-                    <div class="square row-sm-3">
-                      <img class="imgExpanded" src="${productData.images[3]}" alt="${productData.name}">
-                      </div>
-                      <div class="square row-sm-3">
-                        <img class="imgExpanded" src="${productData.images[2]}" alt="${productData.name}">
-                        </div>
-                        </div>
-                        <div class="expandedView col-sm-2">
-                          <img class="imgExpanded" src="${productData.images[1]}" alt="${productData.name}">
-                          </div>
-                          <div class="infoImg col-sm-2"> 
-                            <h1>${productData.name}</h1>
-                            <h4 style="color: grey;">${productData.category}</h4>
-                            <p>${productData.description}</p>
-                            </br>
-                            </br>
-                            <div class="precioImgView">
-                    <p style="font-size:25px"><strong>${productData.currency} ${productData.cost}</strong></p>
-                    </br>
-                    </br>
-                    <p><strong>Vendidos:</strong> ${productData.soldCount}</p>
-                  </div>
-                </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const productID = localStorage.getItem("selectedProductId");
+
+  if (productID) {
+    cargarProductoDestacado(productID);
+    cargarRelacionados(productID);
+  } else {
+    document.getElementById("product-info").innerHTML = "<p>No se seleccionó ningún producto</p>";
+  }
+});
+
+/*Producto destacado. Se trae desde el post id*/
+
+function cargarProductoDestacado(productID) {
+  getJSONData(PRODUCT_INFO_URL + productID + ".json").then(response => {
+    if (response.status === "ok") {
+      const productData = response.data;
+
+      if (productData) {
+        const container = document.getElementById("product-info"); 
+        container.innerHTML = `
+          <div class="col containerGrid">
+            <div class="row-sm-2">
+              <div class="square row-sm-3">
+                <img class="imgExpanded" src="${productData.images[0]}" alt="${productData.name}">
               </div>
-              <div class="containerCarrusel">
-                <div class="containerRelacionados" id="relacionados"></div>
+              <div class="square row-sm-3">
+                <img class="imgExpanded" src="${productData.images[3]}" alt="${productData.name}">
               </div>
-              
-              `;
-            console.log(productID);
-          } else {
-            document.getElementById("product-info").innerHTML = "<p>No se encontró el producto</p>";
-          }
-          }
-
-          const relacionados = document.getElementById("relacionados");
-
-        for (let i = 0; i < localStorage.length; i++ ) {
-          const key = localStorage.key(i);
-          if (key.startsWith("id_")) {
-            const prod = JSON.parse(localStorage.getItem(key));
-            if (prod.id != productID) {
-              const item = document.createElement("div");
-              item.classList.add("relacionados");
-
-              item.innerHTML = `
-                <img class="imgRelacionadosDOM" src="${prod.image}" alt="${prod.name}">
-              `;
-
-              relacionados.appendChild(item);
-            }
+              <div class="square row-sm-3">
+                <img class="imgExpanded" src="${productData.images[2]}" alt="${productData.name}">
+              </div>
+            </div>
             
-            console.log(key);
-          }
-        }
-        })
-        };
+            <div class="expandedView col-md-6 ">
+              <img class="imgExpanded" src="${productData.images[1]}" alt="${productData.name}">
+            </div>
+            
+            <div class="infoImg col-sm-2"> 
+              <h1>${productData.name}</h1>
+              <h4 style="color: grey;">${productData.category}</h4>
+              <p>${productData.description}</p>
+              <br><br>
+              <div class="precioImgView">
+                <p style="font-size:25px"><strong>${productData.currency} ${productData.cost}</strong></p>
+                <br><br>
+                <p><strong>Vendidos:</strong> ${productData.soldCount}</p>
+              </div>
+            </div>
+          </div>
 
-      })
-    </script>
+        `;
+        console.log("Producto destacado cargado:", productID);
+      } else {
+        document.getElementById("product-info").innerHTML = "<p>No se encontró el producto</p>";
+      }
+    }
+  });
+}
+</script>
+
+<!--Relacionados todo piola-->
+
+<div class="containerCarrusel">
+  <div class="containerRelacionados" id="relacionados"></div>
+</div>
 
 
 <!-- El botón de la reseña y el popup para reseñar -->
@@ -200,6 +188,7 @@
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/product-info.js"></script>
+  <script src="js/relate-products.js"></script>
 </body>
 
 </html>
