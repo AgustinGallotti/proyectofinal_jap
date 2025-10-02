@@ -44,129 +44,171 @@
   <main>
     <div id="product-info">C</div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const productID = localStorage.getItem("selectedProductId");
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const productID = localStorage.getItem("selectedProductId");
 
-  if (productID) {
-    cargarProductoDestacado(productID);
-    cargarRelacionados(productID);
-  } else {
-    document.getElementById("product-info").innerHTML = "<p>No se seleccionó ningún producto</p>";
-  }
-});
+      if (productID) {
+        cargarProductoDestacado(productID);
+        getReviews(productID);
+        /* cargarRelacionados(productID); funcion sin efecto, a chequear*/
+      } else {
+        document.getElementById("product-info").innerHTML = "<p>No se seleccionó ningún producto</p>";
+      }
+    });
 
-/*Producto destacado. Se trae desde el post id*/
+    /*Producto destacado. Se trae desde el post id*/
 
-function cargarProductoDestacado(productID) {
-  getJSONData(PRODUCT_INFO_URL + productID + ".json").then(response => {
-    if (response.status === "ok") {
-      const productData = response.data;
+    function cargarProductoDestacado(productID) {
+      getJSONData(PRODUCT_INFO_URL + productID + ".json").then(response => {
+        if (response.status === "ok") {
+          const productData = response.data;
 
-      if (productData) {
-        const container = document.getElementById("product-info"); 
-        container.innerHTML = `
-          <div class="col containerGrid">
-            <div class="row-sm-2">
-              <div class="square row-sm-3">
-                <img class="imgExpanded" src="${productData.images[0]}" alt="${productData.name}">
+          if (productData) {
+            const container = document.getElementById("product-info"); 
+            container.innerHTML = `
+              <div class="col containerGrid">
+                <div class="row-sm-2">
+                  <div class="square row-sm-3">
+                    <img class="imgExpanded" src="${productData.images[0]}" alt="${productData.name}">
+                  </div>
+                  <div class="square row-sm-3">
+                    <img class="imgExpanded" src="${productData.images[3]}" alt="${productData.name}">
+                  </div>
+                  <div class="square row-sm-3">
+                    <img class="imgExpanded" src="${productData.images[2]}" alt="${productData.name}">
+                  </div>
+                </div>
+                
+                <div class="expandedView col-md-6 ">
+                  <img class="imgExpanded" src="${productData.images[1]}" alt="${productData.name}">
+                </div>
+                
+                <div class="infoImg col-sm-2"> 
+                  <h1>${productData.name}</h1>
+                  <h4 style="color: grey;">${productData.category}</h4>
+                  <p>${productData.description}</p>
+                  <br><br>
+                  <div class="precioImgView">
+                    <p style="font-size:25px"><strong>${productData.currency} ${productData.cost}</strong></p>
+                    <br><br>
+                    <p><strong>Vendidos:</strong> ${productData.soldCount}</p>
+                  </div>
+                </div>
               </div>
-              <div class="square row-sm-3">
-                <img class="imgExpanded" src="${productData.images[3]}" alt="${productData.name}">
-              </div>
-              <div class="square row-sm-3">
-                <img class="imgExpanded" src="${productData.images[2]}" alt="${productData.name}">
-              </div>
+
+            `;
+            console.log("Producto destacado cargado:", productID);
+          } else {
+            document.getElementById("product-info").innerHTML = "<p>No se encontró el producto</p>";
+          }
+        }
+      });
+    }
+    </script>
+
+    <!--Relacionados todo piola-->
+
+    <div class="containerCarrusel">
+      <div class="containerRelacionados" id="relacionados"></div>
+    </div>
+
+
+    <!-- El botón de la reseña y el popup para reseñar -->
+    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#reviewModal">Reseñar este producto</button>
+
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-between align-items-center">
+            <h5 class="modal-title" id="reviewModalLabel">Contanos tu experiencia:</h5>
+            <button type="button" class="btn-close custom-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <div class="rating-stars mb-3 d-flex justify-content-center">
+              <input type="radio" id="star5" name="rating" value="5" />
+              <label for="star5" title="5 estrellas"></label>
+              <input type="radio" id="star4" name="rating" value="4" />
+              <label for="star4" title="4 estrellas"></label>
+              <input type="radio" id="star3" name="rating" value="3" />
+              <label for="star3" title="3 estrellas"></label>
+              <input type="radio" id="star2" name="rating" value="2" />
+              <label for="star2" title="2 estrellas"></label>
+              <input type="radio" id="star1" name="rating" value="1" />
+              <label for="star1" title="1 estrella"></label>
             </div>
-            
-            <div class="expandedView col-md-6 ">
-              <img class="imgExpanded" src="${productData.images[1]}" alt="${productData.name}">
-            </div>
-            
-            <div class="infoImg col-sm-2"> 
-              <h1>${productData.name}</h1>
-              <h4 style="color: grey;">${productData.category}</h4>
-              <p>${productData.description}</p>
-              <br><br>
-              <div class="precioImgView">
-                <p style="font-size:25px"><strong>${productData.currency} ${productData.cost}</strong></p>
-                <br><br>
-                <p><strong>Vendidos:</strong> ${productData.soldCount}</p>
-              </div>
+            <div class="form-floating">
+              <textarea class="form-control" placeholder="Comentario" id="reviewComment" style="height: 120px;"></textarea>
+              <label for="reviewComment">Describí tu opinión acá...</label>
             </div>
           </div>
-
-        `;
-        console.log("Producto destacado cargado:", productID);
-      } else {
-        document.getElementById("product-info").innerHTML = "<p>No se encontró el producto</p>";
-      }
-    }
-  });
-}
-</script>
-
-<!--Relacionados todo piola-->
-
-<div class="containerCarrusel">
-  <div class="containerRelacionados" id="relacionados"></div>
-</div>
-
-
-<!-- El botón de la reseña y el popup para reseñar -->
-<button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#reviewModal">Reseñar este producto</button>
-
-<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header d-flex justify-content-between align-items-center">
-        <h5 class="modal-title" id="reviewModalLabel">Contanos tu experiencia:</h5>
-        <button type="button" class="btn-close custom-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <div class="rating-stars mb-3 d-flex justify-content-center">
-          <input type="radio" id="star5" name="rating" value="5" />
-          <label for="star5" title="5 estrellas"></label>
-          <input type="radio" id="star4" name="rating" value="4" />
-          <label for="star4" title="4 estrellas"></label>
-          <input type="radio" id="star3" name="rating" value="3" />
-          <label for="star3" title="3 estrellas"></label>
-          <input type="radio" id="star2" name="rating" value="2" />
-          <label for="star2" title="2 estrellas"></label>
-          <input type="radio" id="star1" name="rating" value="1" />
-          <label for="star1" title="1 estrella"></label>
-        </div>
-        <div class="form-floating">
-          <textarea class="form-control" placeholder="Comentario" id="reviewComment" style="height: 120px;"></textarea>
-          <label for="reviewComment">Describí tu opinión acá...</label>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-center border-0">
-          <button type="submit" class="btn btn-primary w-100 py-2">Enviar</button>
+          <div class="modal-footer justify-content-center border-0">
+              <button type="submit" class="btn btn-primary w-100 py-2">Enviar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Script para que notifique a petición de Lulu Cookie -->
-<script>
-  const sendButton = document.querySelector('#reviewModal button[type="submit"]');
-  const reviewModalElement = document.getElementById('reviewModal');
+    <!-- Script para que notifique a petición de Lulu Cookie -->
+    <script>
+      const sendButton = document.querySelector('#reviewModal button[type="submit"]');
+      const reviewModalElement = document.getElementById('reviewModal');
 
-  sendButton.addEventListener('click', function(event) {
-    event.preventDefault(); 
-    const modal = bootstrap.Modal.getInstance(reviewModalElement);
-    if (modal) {
-      modal.hide();
-    }
+      sendButton.addEventListener('click', function(event) {
+        event.preventDefault(); 
+        const modal = bootstrap.Modal.getInstance(reviewModalElement);
+        if (modal) {
+          modal.hide();
+        }
 
-    setTimeout(() => {
-        alert('Muchas gracias por tu reseña!');
-        window.location.reload(); 
-      }, 150);
-  });
-</script>
+        setTimeout(() => {
+            alert('Muchas gracias por tu reseña!');
+            window.location.reload(); 
+          }, 150);
+      });
+    </script>
+
+    <!-- Mostrar reseñas existentes para el producto -->
+    <script>
+      function getReviews(productID) {
+        getJSONData(PRODUCT_INFO_COMMENTS_URL + productID + ".json").then(response => {
+          if (response.status === "ok") {
+            const productReviews = response.data;
+
+            if (productReviews) {
+              console.log(productReviews);
+              const containterOfRevs = document.getElementById("reviews");
+
+              // mapeamos la lista de comentarios del objeto
+              containterOfRevs.innerHTML = productReviews.map(rev =>
+              `
+                <div class="boxReview">
+                  <div class="containerReview">
+                    <div class="metaReviewRows">
+                      <div class="metaReview">
+                        <img src="img/img_perfil.png" alt="profileImg" class="photoReview"></img>
+                        <h3 class="usernameReview">${rev.user}</h3>
+                      </div>
+                      <p class="dateReview">${rev.dateTime.split(" ")[0]}</p>
+                    </div>
+                    <div class="commentReview">
+                      <p>${rev.description}</p>
+                    </div>
+                  </div>
+                </div>
+              `).join("");
+            } else {
+              console.log("no se han encontrado comentarios");
+            }
+          }
+        });
+      }
+    </script>
+
+    <div id="container">
+      <div class="reviews" id="reviews"></div>
+    </div>
 
   </main>
   <footer class="text-muted">
