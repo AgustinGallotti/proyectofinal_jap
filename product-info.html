@@ -179,25 +179,43 @@
             if (productReviews) {
               console.log(productReviews);
               const containterOfRevs = document.getElementById("reviews");
+              const greyStars = document.getElementById("star");
 
               // mapeamos la lista de comentarios del objeto
-              containterOfRevs.innerHTML = productReviews.map(rev =>
-              `
-                <div class="boxReview">
-                  <div class="containerReview">
-                    <div class="metaReviewRows">
-                      <div class="metaReview">
-                        <img src="img/img_perfil.png" alt="profileImg" class="photoReview"></img>
-                        <h3 class="usernameReview">${rev.user}</h3>
+              containterOfRevs.innerHTML = productReviews.map(rev => {
+                /*
+                  con array from creo 5 elementos a partir de un objeto iterable
+                  mientras esa iteración sea menor a 5, creo un caracter con la clase
+                  amarilla o gris según el puntaje total de máximo 5
+
+                  luego en el span retornado, una vez cargado el score
+                  brindo el valor obtenido con la clase correcta
+                */
+                const stars = Array.from({length:5}, (_, i) => 
+                `<span class="${i< rev.score ? "starYellow" : "star"}" id="star">★</span>`
+                ).join("");
+
+                return `
+                  <div class="boxReview">
+                    <div class="containerReview">
+                      <div class="metaReviewRows">
+                        <div class="metaReview">
+                          <img src="img/img_perfil.png" alt="profileImg" class="photoReview"></img>
+                          <h5 class="usernameReview">${rev.user}</h5>
+                          <p class="dateReview">${rev.dateTime.split(" ")[0]}</p>
+                          </div>
+                          <div class="starsReview">
+                          <div class="stars" id="stars">
+                            <span>${stars}</span>
+                          </div>
+                          </div>
                       </div>
-                      <p class="dateReview">${rev.dateTime.split(" ")[0]}</p>
-                    </div>
-                    <div class="commentReview">
-                      <p>${rev.description}</p>
+                      <div class="commentReview">
+                        <p>${rev.description}</p>
+                        </div>
                     </div>
                   </div>
-                </div>
-              `).join("");
+                `}).join("");
             } else {
               console.log("no se han encontrado comentarios");
             }

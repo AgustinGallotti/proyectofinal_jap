@@ -507,6 +507,15 @@ section#filtros {
   }
 
 /* ESTILOS PARA LAS REVIEWS */
+.containerReview {
+  width: 520px;
+  height: 150px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: whitesmoke 5px 5px;
+}
+
 .boxReview {
   display: flex;
   flex-direction: row;
@@ -533,7 +542,7 @@ section#filtros {
 .metaReview {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-around;
 }
 
 .photoReview {
@@ -546,23 +555,33 @@ section#filtros {
 
 .usernameReview {
   color: grey;
+  justify-content: center;
 }
 
 .dateReview {
   color: silver;
+  font-size: .9rem;
+  margin-left: 20px;
+  justify-content: center;
+}
+
+.starsReview {
+  display: flex;
+  margin-top: -7px;
+}
+
+.star {
+  color: gainsboro;
+  font-size: 1.5rem;
+}
+
+.starYellow {
+  color: yellow;
+  font-size: 1.5rem;
 }
 
 .commentReview {
   display: flex;
   margin-top: 20px;
   color: grey;
-}
-
-.containerReview {
-  width: 420px;
-  height: 150px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: whitesmoke 5px 5px;
 }
