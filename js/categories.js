@@ -50,7 +50,7 @@ function showCategoriesList(){
             ((maxCount == undefined) || (maxCount != undefined && parseInt(category.productCount) <= maxCount))){
 
             htmlContentToAppend += `
-            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action cursor-active">
+            <div id="${category.id}" class="list-group-item list-group-item-action cursor-active">
                 <div class="row">
                     <div class="col-3">
                         <img src="${category.imgSrc}" alt="${category.description}" class="img-thumbnail">
@@ -65,10 +65,22 @@ function showCategoriesList(){
                 </div>
             </div>
             `
+            console.log(category.id)
         }
-
-        document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
     }
+    const container = document.getElementById("cat-list-container");
+    container.innerHTML = htmlContentToAppend;
+    
+    //delegar funciones
+    container.addEventListener("click", (e) => {
+    const catSelected = e.target.closest(".list-group-item")
+        if (catSelected) {
+            // guardo el seleccionado
+            localStorage.setItem("selectedProductId", catSelected.id)
+            console.log("id en hover: ", catSelected.id);
+            window.location = "products.html";
+        }
+    })
 }
 
 function sortAndShowCategories(sortCriteria, categoriesArray){
@@ -91,9 +103,11 @@ document.addEventListener("DOMContentLoaded", function(e){
     getJSONData(CATEGORIES_URL).then(function(resultObj){
         if (resultObj.status === "ok"){
             currentCategoriesArray = resultObj.data
-            showCategoriesList()
+            console.log("categorías: ", currentCategoriesArray)
+            showCategoriesList(currentCategoriesArray)
             //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
+
     });
 
     document.getElementById("sortAsc").addEventListener("click", function(){

@@ -2,7 +2,7 @@
 let categoriesArray = [];
 
 //función que recibe un array con los datos, y los muestra en pantalla a través el uso del DOM
-function showCategoriesList(array){
+function showProducts(array){
     
     const htmlContentToAppend = array.products.map(prod => {
         localStorage.setItem(`id_${prod.id}`, JSON.stringify(prod));
@@ -37,27 +37,40 @@ function showCategoriesList(array){
 }
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    if (productID) {
+    cargarProductoDestacado(productID);
+    getReviews(productID);
+    /* cargarRelacionados(productID); funcion sin efecto, a chequear*/
+    } else {
+    document.getElementById("product-info").innerHTML = "<p>No se seleccionó ningún producto</p>";
+    }
+});
+
 /* 
 EJECUCIÓN:
 
 -Al cargar la página se llama a getJSONData() pasándole por parámetro la dirección para obtener el listado.
 -Se verifica el estado del objeto que devuelve, y, si es correcto, se cargan los datos en categoriesArray.
--Por último, se llama a showCategoriesList() pasándole por parámetro categoriesArray.
+-Por último, se llama a showProducts() pasándole por parámetro categoriesArray.
 
 */
 
 document.addEventListener("DOMContentLoaded", function(e){
+    const catID = localStorage.getItem("selectedProductId");
 
-    // Usar url en lugar de LIST_URL
-    getJSONData(LIST_URL).then(function(resultObj){
-        if (resultObj.status === "ok") {
-            categoriesArray = resultObj.data;
-            showCategoriesList(categoriesArray);
+    if (catID) {
+        getJSONData(PRODUCTS_URL + catID + ".json").then(function(resultObj){
+            if (resultObj.status === "ok") {
+                categoriesArray = resultObj.data;
+                showProducts(categoriesArray);
+            }
+            else {
+                console.log("url no econtrada")
+
+            }
         }
-        else {
-            console.log("url no econtrada")
-        }
-    });
+    )}
 });
 
 /* Funciones para los filtros, entrega 3*/
@@ -72,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                     prod.description.toLowerCase().includes(buscar)
                 );
 
-                showCategoriesList({ products: filteredProducts });
+                showProducts({ products: filteredProducts });
             });
 
 /* Filtro de precio, entrega 3*/
@@ -85,7 +98,7 @@ function filtrarPorPrecio() {
     max = max ? parseInt(max) : null;
 
     if (min === null && max === null) {
-        showCategoriesList(categoriesArray);
+        showProducts(categoriesArray);
         return;
     }
 
@@ -94,7 +107,7 @@ function filtrarPorPrecio() {
         return (min === null || precio >= min) && (max === null || precio <= max);
     });
 
-    showCategoriesList({ products: filteredProducts });
+    showProducts({ products: filteredProducts });
 }
 
 
@@ -102,22 +115,22 @@ function limpiarFiltros() {
     document.getElementById("precio-min").value = "";
     document.getElementById("precio-max").value = "";
 
-    showCategoriesList(categoriesArray);
+    showProducts(categoriesArray);
 }
 
 /* Funciones de Ordenamiento, entrega 3*/
 
 document.getElementById("sort-desc").addEventListener("click", () => {
     categoriesArray.products.sort((a, b) => a.cost - b.cost);
-    showCategoriesList(categoriesArray);
+    showProducts(categoriesArray);
 });
 
 document.getElementById("sort-asc").addEventListener("click", () => {
     categoriesArray.products.sort((a, b) => b.cost - a.cost);
-    showCategoriesList(categoriesArray);
+    showProducts(categoriesArray);
 });
 
 document.getElementById("sort-relev").addEventListener("click", () => {
     categoriesArray.products.sort((a, b) => b.soldCount - a.soldCount);
-    showCategoriesList(categoriesArray);
+    showProducts(categoriesArray);
 });
