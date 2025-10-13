@@ -585,3 +585,62 @@ section#filtros {
   margin-top: 20px;
   color: grey;
 }
+
+
+/* Prueba de colores para el claroscuro (para nada copiado de lo de Fernando, sujeto a modificaciones) */
+:root[data-theme="dark"] {
+  --bg-main: #222831;
+  --bg-secondary: #393e46;
+  --text-main: #eeeeee;
+  --text-secondary: #bdbdbd;
+  --accent: #53C0FB;
+}
+
+:root[data-theme="light"] {
+  --bg-main: #fff;
+  --bg-secondary: #F7F6F6;
+  --text-main: #222831;
+  --text-secondary: #393e46;
+  --accent: #53C0FB;
+}
+
+/* Cambio de los colores sin la navbar (le re cuesta). Le metí !important a todo por las dudas */
+body, main, .jumbotron, .container, .site-header:not(.navbar), .modal-content, .modal-body, .containerReview, .infoImg {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+}
+
+.jumbotron, .containerReview, .modal-content, .infoImg {
+  background-color: var(--bg-secondary) !important;
+}
+
+.site-header a, nav:not(.navbar) a, .usernameReview, .commentReview, .dateReview {
+  color: var(--text-main) !important;
+}
+
+footer, .modal-footer {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-secondary) !important;
+}
+
+.btn-primary, .mayor, .menor, .relevancia {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+.btn-primary:hover, .mayor:hover, .menor:hover, .relevancia:hover {
+  background-color: #006ac2 !important;
+}
+
+/* Intento forzar que respete la navbar */
+:root[data-theme="light"] .navbar .nav-link,
+:root[data-theme="light"] .navbar-brand {
+color: #222831 !important;
+}
+
+:root[data-theme="dark"] .navbar .nav-link,
+:root[data-theme="dark"] .navbar-brand {
+color: #fff !important;
+}
+
+/* Hasta acá la prueba de modo oscuro, cookies*/
