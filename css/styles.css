@@ -645,3 +645,131 @@ color: #fff !important;
 
 
 /* Hasta acá el modo oscuro, cookies, mi sanidad menos mil */
+
+/* CSS PARA PROFILE */
+.tituloPerfil {
+  color: #222831;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.edit {
+  display: none;
+  flex-direction: column;
+  justify-content: end;
+  border: none;
+  width:fit-content;
+  background-color: #005fa3;
+  color: white;
+}
+
+#editPhoto:hover {
+  cursor:pointer;
+}
+
+.containerProfile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 640px;
+}
+
+.profileRows {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #005fa3;
+  width: 780px;
+}
+
+.nombreUsuario h4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.rowPhotoProfile {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 20px;
+}
+
+.boxPerfil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24rem;
+  height: 24rem;
+  background-color: #0077cc;
+  border-radius: 100%;
+}
+
+
+/*FORM DEL PERFIL*/
+
+.profileForm {
+  display: flex;
+  background-color: white;
+  width: auto;
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  color: rgb(189, 188, 188);
+}
+
+.iconBack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0077cc;
+  width: 50px;
+  margin-right: 10px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.iconInput {
+  display: flex;
+  width: 30px;
+}
+
+.boxInputProf{
+  border: none;
+  outline: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.inputProfile {
+  display: flex;
+  justify-content: space-around;
+  border: none;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: grey 3px 3px 9px;
+  margin-bottom: 15px;
+}
+
+.btnBox {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.btnEditarPerfil {
+  border: none;
+  color: white;
+  background-color: #0087F7;
+  border-radius: 20px;
+  height: 50px;
+  width: 240px;
+  font-size: 1.4rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

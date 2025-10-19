@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
@@ -22,6 +23,14 @@
       .bd-placeholder-img-lg {
         font-size: 3.5rem;
       }
+    }
+
+    #preview {
+      width: 24rem;
+      height: 24rem;
+      border-radius: 100%;
+      background-size: cover;
+      background-position: center;
     }
   </style>
   <script src="js/toggle-dark-light.js"></script>
@@ -54,9 +63,144 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+        /* Migro lo de index.html para acá, así a cualquier página que entre lo patea a login si no inició sesión */
+          const sesionIniciada = localStorage.getItem('inicioSesion');
+          if (sesionIniciada !== 'true') {
+              window.location.href = 'login.html';
+              return;
+          }
+          
+          const elementoUsuario = document.getElementById('correo-usuario');
+
+          const datosGuardados = JSON.parse(localStorage.getItem('datosPerfil'));
+          if (datosGuardados) {
+            console.log('datos cargados desde localStorage', datosGuardados);
+            
+            const container = document.getElementById("nombreUsuario"); 
+            
+            container.innerHTML = `
+              <h4 id=correo-usuario>${datosGuardados.nombre}</h4>
+            `;
+          }
+
+        });
+        
+        function saveChanges(event) {
+          
+          const inombre = document.getElementById('nombre').value.trim();
+          const iapellido = document.getElementById('apellido').value.trim();
+          const idireccion = document.getElementById('dirección').value.trim();
+          const icontacto = document.getElementById('contacto').value.trim();
+          
+          const datosGuardados = JSON.parse(localStorage.getItem('datosPerfil'));
+
+          if (inombre || iapellido || idireccion || icontacto) {
+            const datosPerfil = {
+              nombre: inombre || datosGuardados.nombre,
+              apellido: iapellido || datosGuardados.apellido,
+              direccion: idireccion || datosGuardados.direccion,
+              contacto: icontacto || datosGuardados.contacto
+            };
+  
+            localStorage.setItem('datosPerfil', JSON.stringify(datosPerfil));
+  
+            alert('cambios guardados correctamente');
+          } else {
+            alert("no se pudieron guardad los cambios");
+          }
+        }
+
+        function cambiarFoto(event) {
+          const file = event.target.files[0];
+
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+              const photoProfile = document.getElementById('preview');
+              photoProfile.style.backgroundImage = `url(${reader.result})`;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      </script>
+      <div class="containerProfile">
+        <div class="profileRows">
+          <div class="rowPhotoProfile">
+            <input class="edit" placeholder="cambiarImagen" type="file" id="fileInput" accept="image/*" onchange="cambiarFoto(event)">
+              <i class="material-icons" id="editPhoto" onclick="document.getElementById('fileInput').click()">edit</i>
+            </input>
+            <div class="boxPerfil">
+              <div id="preview"></div>
+            </div>
+            <div class="nombreUsuario" id="nombreUsuario"></div>
+          </div>
+          <div class="profileForm">
+            <form id="section-profile">
+              <div class="form-group">
+                <div class="btnBox">
+                  <h2 class="tituloPerfil">PERFIL DE USUARIO</h2>
+                </div>
+                
+                <label for="nombre">Nombre</label>
+                <div class="inputProfile">
+                  <div class="iconBack">
+                    <i class="material-icons">person</i>
+                  </div>
+                  <input type="nombre"
+                    id="nombre"
+                    name="nombre"
+                    placeholder="Nombre"
+                    class="boxInputProf"
+                    >
+                </div>
+
+                <label for="apellido">Apellido</label>
+                <div class="inputProfile">
+                  <div class="iconBack">
+                    <i class="material-icons">edit</i>
+                  </div>
+                  <input type="apellido"
+                    id="apellido"
+                    name="apellido"
+                    placeholder="Apellido"
+                    class="boxInputProf"
+                    >
+                </div>
+                <label for="nombre">Dirección</label>
+                <div class="inputProfile">
+                  <div class="iconBack">
+                    <i class="material-icons">mail</i>
+                  </div>
+                  <input type="dirección"
+                    id="dirección"
+                    name="dirección"
+                    placeholder="Dirección"
+                    class="boxInputProf"
+                    >
+                </div>
+                <label for="nombre">Contacto</label>
+                <div class="inputProfile">
+                  <div class="iconBack">
+                    <i class="material-icons">call</i>
+                  </div>
+                  <input type="contacto"
+                    id="contacto"
+                    name="contacto"
+                    placeholder="Contacto"
+                    class="boxInputProf"
+                    >
+                </div>
+                <div class="btnBox">
+                  <button onclick="saveChanges(event)" class="btnEditarPerfil">Editar Perfil</button>
+                </div>
+              </div>
+          </div>
+        </div>
       </div>
+      <div id="correoProfile"></div>
     </div>
   </main>
   <footer class="text-muted">
